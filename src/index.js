@@ -38,6 +38,11 @@ function fetchImages() {
     imagesApiService.fetchImages().then(hits => {
         appendImagesMarkup(hits);
         loadMoreButton.enable();
+
+        setTimeout(function () {
+            window.scrollTo(0, document.documentElement.offsetHeight);
+        }, 2000);
+
     });
 }
 
