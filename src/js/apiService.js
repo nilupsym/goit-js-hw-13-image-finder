@@ -1,6 +1,5 @@
 const API_KEY = '19813878-66abafb147b791a25f56ab6fb';
 const BASE_URL = 'https://pixabay.com/api';
-// const options = { headers: { Authorization: API_KEY, }, };
 
 export default class ImagesApiService {
     constructor() {
@@ -15,7 +14,8 @@ export default class ImagesApiService {
             .then(({ hits }) => {
                 this.incrementPage();
                 return hits;
-            });
+            })
+            .catch(error => console.log(error));
     }
     
     incrementPage() {
