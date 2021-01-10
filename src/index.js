@@ -3,6 +3,7 @@ import imageCard from './templates/image-card.hbs';
 import ImagesApiService from './js/apiService';
 import LoadMoreButton from './js/components/load-more-button';
 import { emptyQuery, imagesFound, imagesNotFound } from './js/notifications';
+import onClickImage from './js/lightbox.js';
 
 const refs = {
     searchForm: document.querySelector('.search-form'),
@@ -26,6 +27,8 @@ function onSearch(e) {
 
     if (imagesApiService.query === '') {
         emptyQuery();
+        clearImagesContainer();
+        loadMoreButton.hide();
         return;
     }
 
@@ -33,6 +36,7 @@ function onSearch(e) {
     imagesApiService.resetPage();
     clearImagesContainer();
     fetchImages();
+    e.currentTarget.reset();
 }
 
 function fetchImages() {
@@ -51,8 +55,9 @@ function fetchImages() {
         setTimeout(function () {
             window.scrollTo(0, document.documentElement.offsetHeight);
         }, 2000);
-
     });
+
+    refs.imagesContainer.addEventListener('click', onClickImage);
 }
 
 function appendImagesMarkup(hits) {
@@ -62,8 +67,3 @@ function appendImagesMarkup(hits) {
 function clearImagesContainer() {
     refs.imagesContainer.innerHTML = '';
 }
-
-// const basicLightbox = require('basiclightbox')
-// // import * as basicLightbox from 'basiclightbox'
-
-// console.log(basicLightbox);
