@@ -17,8 +17,10 @@ const loadMoreButton = new LoadMoreButton({
 
 const imagesApiService = new ImagesApiService();
 
+refs.imagesContainer.addEventListener('click', onClickImage);
+
 refs.searchForm.addEventListener('submit', onSearch);
-loadMoreButton.refs.button.addEventListener('click', fetchImages);
+loadMoreButton.refs.button.addEventListener('click', onLoadMoreButtonClick);
 
 function onSearch(e) {
     e.preventDefault();
@@ -36,7 +38,6 @@ function onSearch(e) {
     imagesApiService.resetPage();
     clearImagesContainer();
     fetchImages();
-    e.currentTarget.reset();
 }
 
 function fetchImages() {
@@ -47,17 +48,19 @@ function fetchImages() {
             imagesNotFound();
             return;
         }
-
+        
         appendImagesMarkup(hits);
         loadMoreButton.enable();
         imagesFound();
-
-        setTimeout(function () {
-            window.scrollTo(0, document.documentElement.offsetHeight);
-        }, 2000);
     });
+}
 
-    refs.imagesContainer.addEventListener('click', onClickImage);
+function onLoadMoreButtonClick() {
+    fetchImages();
+    
+    setTimeout(function () {
+         window.scrollTo(0, document.documentElement.offsetHeight);
+    }, 2000);
 }
 
 function appendImagesMarkup(hits) {
